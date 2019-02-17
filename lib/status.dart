@@ -1,4 +1,0 @@
-enum RequestStatus{
-  SUCCESSFUL,
-  FAILED
-}

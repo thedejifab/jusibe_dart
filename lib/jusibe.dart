@@ -1,5 +1,5 @@
 import 'package:jusibe/exceptions.dart';
-import 'package:jusibe/status.dart';
+import 'package:jusibe/response.dart';
 import 'package:meta/meta.dart';
 import 'package:dio/dio.dart';
 
@@ -41,7 +41,7 @@ class Jusibe {
   /// [from] - Sender ID (alphanumeric/alphabetic)
   /// [to] - Receipient's mobile number
   /// [message] - Message being sent
-  Future<RequestStatus> sendSMS({
+  Future<JusibeResponse> sendSMS({
     @required String from,
     @required String to,
     @required String message,
@@ -58,13 +58,13 @@ class Jusibe {
   }
 
   /// To get available SMS credits in Jusibe account
-  Future<RequestStatus> checkCredits() async {
+  Future<JusibeResponse> checkCredits() async {
     final response = await _client.get('get_credits');
     //HANDLE RESPONSE
   }
 
   /// To get the delivery status of message with ID [messageID]
-  Future<RequestStatus> getDeliveryStatus({@required String messageID}) async {
+  Future<JusibeResponse> getDeliveryStatus({@required String messageID}) async {
     final response = await _client.get(
       'delivery_status',
       queryParameters: {
