@@ -1,2 +1,2 @@
-# jusibe_dart
+# jusibe_dart [IN PROGRESS]
 Jusibe.com client library for dartlang
