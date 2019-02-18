@@ -45,11 +45,13 @@ class Jusibe {
   /// [from] - Sender ID (alphanumeric/alphabetic)
   /// [to] - Receipient's mobile number
   /// [message] - Message being sent
-  Future<JusibeResponse> sendSMS({
+  Future<SMSDetails> sendSMS({
     @required String from,
     @required String to,
     @required String message,
   }) async {
+    Map responseBody;
+
     final response = await _client.post(
       'send_sms',
       data: {
@@ -64,12 +66,21 @@ class Jusibe {
       ),
     );
 
+    responseBody = json.decode(response.data);
+
     if (response.statusCode == 200) {
+      return SMSDetails.fromJSON(responseBody);
     } else if (response.statusCode == 401) {
-    } else if (response.statusCode == 400) {}
+      throw FailedAuthException(responseBody['error']);
+    } else if (response.statusCode == 400) {
+      throw SMSDetailsException(responseBody[responseBody.keys.elementAt(0)]);
+    }else{
+      throw Exception("Failed to send SMS");
+    }
   }
 
   /// To get available SMS credits in Jusibe account
+  /// Returns [int]
   Future<int> checkCredits() async {
     Map responseBody;
     final response = await _client.get(
@@ -93,6 +104,7 @@ class Jusibe {
   }
 
   /// To get the delivery status of message with ID [messageID]
+  /// Returns [SMSDeliveryStatus] type
   Future<SMSDeliveryStatus> getDeliveryStatus(
       {@required String messageID}) async {
     Map responseBody;

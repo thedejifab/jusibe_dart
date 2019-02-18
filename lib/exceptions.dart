@@ -33,3 +33,12 @@ class SMSDeliveryException implements Exception {
   @override
   String toString() => 'SMSDeliveryException: $message';
 }
+
+class SMSDetailsException implements Exception {
+  final String message;
+
+  const SMSDetailsException(this.message);
+
+  @override
+  String toString() => 'SMSSendingException: $message';
+}
