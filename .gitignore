@@ -16,3 +16,6 @@ doc/api/
 *.iml
 *.ipr
 *.iws
+
+# VScode files
+.vscode
