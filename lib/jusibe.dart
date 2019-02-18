@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:jusibe/exceptions.dart';
 import 'package:jusibe/models.dart';
-import 'package:jusibe/response.dart';
 import 'package:jusibe/utils.dart';
 import 'package:meta/meta.dart';
 import 'package:dio/dio.dart';
@@ -51,56 +48,81 @@ class Jusibe {
     @required String message,
   }) async {
     Map responseBody;
+    SMSDetails returnable;
 
-    final response = await _client.post(
-      'send_sms',
-      data: {
-        "to": to,
-        "from": from,
-        "message": message,
-      },
-      options: RequestOptions(
-        headers: {
-          "Authorization": keysToBasicAuth(_publicKey, _accessToken),
+    try {
+      final response = await _client.post(
+        'send_sms',
+        data: {
+          "to": to,
+          "from": from,
+          "message": message,
         },
-      ),
-    );
+        options: RequestOptions(
+          headers: {
+            "Authorization": keysToBasicAuth(_publicKey, _accessToken),
+          },
+        ),
+      );
 
-    responseBody = json.decode(response.data);
+      responseBody = response.data;
 
-    if (response.statusCode == 200) {
-      return SMSDetails.fromJSON(responseBody);
-    } else if (response.statusCode == 401) {
-      throw FailedAuthException(responseBody['error']);
-    } else if (response.statusCode == 400) {
-      throw SMSDetailsException(responseBody[responseBody.keys.elementAt(0)]);
-    }else{
-      throw Exception("Failed to send SMS");
+      if (response.statusCode == 200) {
+        returnable = SMSDetails.fromJSON(responseBody);
+      }
+    } on DioError catch (error) {
+      if (error.response != null) {
+        var response = error.response;
+        responseBody = response.data;
+
+        if (response.statusCode == 401) {
+          throw FailedAuthException(responseBody['error']);
+        } else if (response.statusCode == 400) {
+          throw SMSDetailsException(
+              responseBody[responseBody.keys.elementAt(0)]);
+        }
+      } else {
+        throw Exception("Failed to send SMS");
+      }
     }
+    return returnable;
   }
 
   /// To get available SMS credits in Jusibe account
   /// Returns [int]
   Future<int> checkCredits() async {
     Map responseBody;
-    final response = await _client.get(
-      'get_credits',
-      options: RequestOptions(
-        headers: {
-          "Authorization": keysToBasicAuth(_publicKey, _accessToken),
-        },
-      ),
-    );
+    int returnable;
 
-    responseBody = json.decode(response.data);
+    try {
+      final response = await _client.get(
+        'get_credits',
+        options: RequestOptions(
+          headers: {
+            "Authorization": keysToBasicAuth(_publicKey, _accessToken),
+          },
+        ),
+      );
 
-    if (response.statusCode == 200) {
-      return responseBody['sms_credits'];
-    } else if (response.statusCode == 401) {
-      throw FailedAuthException(responseBody['error']);
-    } else {
-      throw Exception("Failed to get SMS credits");
+      responseBody = response.data;
+
+      if (response.statusCode == 200) {
+        returnable = int.parse(responseBody['sms_credits']);
+      }
+    } on DioError catch (error) {
+      if (error.response != null) {
+        var response = error.response;
+        responseBody = response.data;
+
+        if (response.statusCode == 401) {
+          throw FailedAuthException(responseBody['error']);
+        }
+      } else {
+        throw Exception("Failed to send SMS");
+      }
     }
+
+    return returnable;
   }
 
   /// To get the delivery status of message with ID [messageID]
@@ -108,29 +130,41 @@ class Jusibe {
   Future<SMSDeliveryStatus> getDeliveryStatus(
       {@required String messageID}) async {
     Map responseBody;
+    SMSDeliveryStatus returnable;
 
-    final response = await _client.get(
-      'delivery_status',
-      queryParameters: {
-        "message_id": messageID,
-      },
-      options: RequestOptions(
-        headers: {
-          "Authorization": keysToBasicAuth(_publicKey, _accessToken),
+    try {
+      final response = await _client.get(
+        'delivery_status',
+        queryParameters: {
+          "message_id": messageID,
         },
-      ),
-    );
+        options: RequestOptions(
+          headers: {
+            "Authorization": keysToBasicAuth(_publicKey, _accessToken),
+          },
+        ),
+      );
 
-    responseBody = json.decode(response.data);
+      responseBody = response.data;
 
-    if (response.statusCode == 200) {
-      return SMSDeliveryStatus.fromJSON(responseBody);
-    } else if (response.statusCode == 401) {
-      throw FailedAuthException(responseBody['error']);
-    } else if (response.statusCode == 400) {
-      throw SMSDeliveryException(responseBody['invalid_message_id']);
-    } else {
-      throw Exception('Failed to get message delivery status');
+      if (response.statusCode == 200) {
+        returnable = SMSDeliveryStatus.fromJSON(responseBody);
+      }
+    } on DioError catch (error) {
+      if (error.response != null) {
+        var response = error.response;
+        responseBody = response.data;
+
+        if (response.statusCode == 401) {
+          throw FailedAuthException(responseBody['error']);
+        } else if (response.statusCode == 400) {
+          throw SMSDeliveryException(responseBody['invalid_message_id']);
+        }
+      } else {
+        throw Exception('Failed to get message delivery status');
+      }
     }
+
+    return returnable;
   }
 }

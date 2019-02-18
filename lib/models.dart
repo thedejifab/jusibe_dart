@@ -32,5 +32,5 @@ class SMSDetails {
 
   final String messageID;
   final String status;
-  final String smsCreditsUsed;
+  final int smsCreditsUsed;
 }
