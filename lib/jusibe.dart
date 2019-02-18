@@ -1,5 +1,6 @@
 import 'package:jusibe/exceptions.dart';
 import 'package:jusibe/response.dart';
+import 'package:jusibe/utils.dart';
 import 'package:meta/meta.dart';
 import 'package:dio/dio.dart';
 
@@ -53,13 +54,25 @@ class Jusibe {
         "from": from,
         "message": message,
       },
+      options: RequestOptions(
+        headers: {
+          "Authorization": keysToBasicAuth(_publicKey, _accessToken),
+        },
+      ),
     );
     //HANDLE RESPONSE
   }
 
   /// To get available SMS credits in Jusibe account
   Future<JusibeResponse> checkCredits() async {
-    final response = await _client.get('get_credits');
+    final response = await _client.get(
+      'get_credits',
+      options: RequestOptions(
+        headers: {
+          "Authorization": keysToBasicAuth(_publicKey, _accessToken),
+        },
+      ),
+    );
     //HANDLE RESPONSE
   }
 
@@ -70,8 +83,12 @@ class Jusibe {
       queryParameters: {
         "message_id": messageID,
       },
+      options: RequestOptions(
+        headers: {
+          "Authorization": keysToBasicAuth(_publicKey, _accessToken),
+        },
+      ),
     );
-
     //HANDLE RESPONSE
   }
 }
