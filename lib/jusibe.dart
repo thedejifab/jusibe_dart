@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:jusibe/exceptions.dart';
+import 'package:jusibe/models.dart';
 import 'package:jusibe/response.dart';
 import 'package:jusibe/utils.dart';
 import 'package:meta/meta.dart';
@@ -92,7 +93,10 @@ class Jusibe {
   }
 
   /// To get the delivery status of message with ID [messageID]
-  Future<JusibeResponse> getDeliveryStatus({@required String messageID}) async {
+  Future<SMSDeliveryStatus> getDeliveryStatus(
+      {@required String messageID}) async {
+    Map responseBody;
+
     final response = await _client.get(
       'delivery_status',
       queryParameters: {
@@ -104,6 +108,17 @@ class Jusibe {
         },
       ),
     );
-    //HANDLE RESPONSE
+
+    responseBody = json.decode(response.data);
+
+    if (response.statusCode == 200) {
+      return SMSDeliveryStatus.fromJSON(responseBody);
+    } else if (response.statusCode == 401) {
+      throw FailedAuthException(responseBody['error']);
+    } else if (response.statusCode == 400) {
+      throw SMSDeliveryException(responseBody['invalid_message_id']);
+    } else {
+      throw Exception('Failed to get message delivery status');
+    }
   }
 }

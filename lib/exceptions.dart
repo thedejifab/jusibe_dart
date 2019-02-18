@@ -24,3 +24,12 @@ class FailedAuthException implements Exception {
   @override
   String toString() => 'FailedAuthException: $message';
 }
+
+class SMSDeliveryException implements Exception {
+  final String message;
+
+  const SMSDeliveryException(this.message);
+
+  @override
+  String toString() => 'SMSDeliveryException: $message';
+}
