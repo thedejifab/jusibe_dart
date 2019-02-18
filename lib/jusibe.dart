@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:jusibe/exceptions.dart';
 import 'package:jusibe/response.dart';
 import 'package:jusibe/utils.dart';
@@ -60,11 +62,15 @@ class Jusibe {
         },
       ),
     );
-    //HANDLE RESPONSE
+
+    if (response.statusCode == 200) {
+    } else if (response.statusCode == 401) {
+    } else if (response.statusCode == 400) {}
   }
 
   /// To get available SMS credits in Jusibe account
-  Future<JusibeResponse> checkCredits() async {
+  Future<int> checkCredits() async {
+    Map responseBody;
     final response = await _client.get(
       'get_credits',
       options: RequestOptions(
@@ -73,7 +79,16 @@ class Jusibe {
         },
       ),
     );
-    //HANDLE RESPONSE
+
+    responseBody = json.decode(response.data);
+
+    if (response.statusCode == 200) {
+      return responseBody['sms_credits'];
+    } else if (response.statusCode == 401) {
+      throw FailedAuthException(responseBody['error']);
+    } else {
+      throw Exception("Failed to get SMS credits");
+    }
   }
 
   /// To get the delivery status of message with ID [messageID]
