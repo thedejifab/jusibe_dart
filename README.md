@@ -56,7 +56,7 @@ int creditsRemaining = await jusibe.checkCredits();
 print(creditsRemaining);
 ```
 
-> Check out the example program [here](https://github.com/thedejifab/jusibe_dart/example)
+> Check out the example program [here](https://github.com/thedejifab/jusibe_dart/tree/master/example)
 
 ## Contributing
 
