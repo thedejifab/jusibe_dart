@@ -7,7 +7,7 @@
 Add [jusibe_dart](https://pub.dartlang.org/packages/jusibe) as a dependency in your `pubspec.yaml` file.
 
 ```yaml
-jusibe_dart: ^0.1.0
+jusibe_dart: ^0.1.1
 ```
 
 ## Usage

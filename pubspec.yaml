@@ -1,6 +1,6 @@
 name: jusibe
 description: Dartlang Client Library for Jusibe SMS REST API Service https://jusibe.com
-version: 0.1.0
+version: 0.1.1
 author: Fabusuyi Ayodeji <thedejifab@outlook.com>
 homepage: https://github.com/thedejifab/jusibe_dart
 
