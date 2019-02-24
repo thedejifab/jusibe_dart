@@ -1,6 +1,11 @@
 name: jusibe
 description: A Jusibe client library for Dart.
 version: 0.1.0
+author: Fabusuyi Ayodeji <thedejifab@outlook.com>
+homepage: https://github.com/thedejifab/jusibe_dart
+
+environment:
+  sdk: '>=2.0.0 <3.0.0'
 
 dependencies: 
   dio: ^2.0.5
