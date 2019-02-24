@@ -1,6 +1,6 @@
-import 'package:jusibe/exceptions.dart';
-import 'package:jusibe/models.dart';
-import 'package:jusibe/utils.dart';
+import 'package:jusibe/src/exceptions.dart';
+import 'package:jusibe/src/models.dart';
+import 'package:jusibe/src/utils.dart';
 import 'package:meta/meta.dart';
 import 'package:dio/dio.dart';
 

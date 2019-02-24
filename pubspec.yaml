@@ -1,5 +1,7 @@
 name: jusibe
 description: A Jusibe client library for Dart.
+version: 0.1.0
+
 dependencies: 
   dio: ^2.0.5
 dev_dependencies: 
