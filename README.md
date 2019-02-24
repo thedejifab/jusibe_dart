@@ -1,10 +1,10 @@
-# jusibe_dart 
+# jusibe_dart ✉️ 
 
 > Jusibe SMS library for Dart. Based on the Official API Documentation provided by [Jusibe](https://www.jusibe.com).
 
 ## Installation
 
-Add [jusibe_dart](URL) as a dependency in your `pubspec.yaml` file.
+Add [jusibe_dart](https://pub.dartlang.org/packages/jusibe) as a dependency in your `pubspec.yaml` file.
 
 ```yaml
 jusibe_dart: ^0.1.0
