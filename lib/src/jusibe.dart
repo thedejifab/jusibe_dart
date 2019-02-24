@@ -1,8 +1,8 @@
 import 'package:jusibe/src/exceptions.dart';
 import 'package:jusibe/src/models.dart';
 import 'package:jusibe/src/utils.dart';
-import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
+import 'package:dio/dio.dart';
 
 class Jusibe {
   /// Jusibe public key
