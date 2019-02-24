@@ -4,10 +4,10 @@
 
 ## Installation
 
-Add [jusibe_dart](https://pub.dartlang.org/packages/jusibe) as a dependency in your `pubspec.yaml` file.
+Add [jusibe](https://pub.dartlang.org/packages/jusibe) as a dependency in your `pubspec.yaml` file.
 
 ```yaml
-jusibe_dart: ^0.1.1
+jusibe: ^0.1.2
 ```
 
 ## Usage
